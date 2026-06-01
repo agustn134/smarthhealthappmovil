@@ -11,3 +11,6 @@ Aplicación Android multiplataforma para monitoreo de salud personal.
 
 ## 📱 Capturas de Pantalla
 *(Aquí agregaremos las capturas más adelante)*
+
+## Autor
+Agustin Lopez Parra— UTNG — agustinlopezparra13@gmail.com
