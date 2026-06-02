@@ -4,14 +4,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import mx.utng.alp.smarthealthmonitor.data.models.LecturaFC
 import mx.utng.alp.smarthealthmonitor.data.models.MockData
 import mx.utng.alp.smarthealthmonitor.ui.components.FilaHistorial
 import mx.utng.alp.smarthealthmonitor.ui.components.TarjetaDato
@@ -21,11 +21,12 @@ import mx.utng.alp.smarthealthmonitor.ui.theme.SmartHealthMonitorTheme
 @Composable
 fun DashboardScreen(
     onHistorialClick: () -> Unit = {},
-    onAlertClick: () -> Unit = {},
-    fc: Int = MockData.fcActual,
-    pasos: Int = MockData.pasosActual,
-    historial: List<LecturaFC> = MockData.historialFC
+    onAlertClick: () -> Unit = {}
 ) {
+    var fc by remember { mutableIntStateOf(MockData.fcActual) }
+    var pasos by remember { mutableIntStateOf(MockData.pasosActual) }
+    val historial = MockData.historialFC
+
     SmartHealthMonitorTheme {
         Scaffold(
             topBar = {
@@ -36,9 +37,21 @@ fun DashboardScreen(
                             style = MaterialTheme.typography.titleLarge
                         )
                     },
+                    actions = {
+                        IconButton(onClick = {
+                            fc = (60..130).random()
+                            pasos += (10..50).random()
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Refresh,
+                                contentDescription = "Simular datos Wearable"
+                            )
+                        }
+                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor    = MaterialTheme.colorScheme.primary,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary
+                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                        actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 )
             },
@@ -62,16 +75,14 @@ fun DashboardScreen(
                 contentPadding       = PaddingValues(16.dp),
                 verticalArrangement   = Arrangement.spacedBy(12.dp)
             ) {
-                // ── Tarjeta FC ────────────────────────────
                 item {
                     TarjetaDato(
                         valor      = "$fc",
                         unidad     = "bpm",
                         label      = "Frecuencia cardíaca",
-                        colorValor = MaterialTheme.colorScheme.error
+                        colorValor = if (fc > 100) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
                     )
                 }
-                // ── Tarjeta Pasos ─────────────────────────
                 item {
                     TarjetaDato(
                         valor      = "%,d".format(pasos),
@@ -80,7 +91,6 @@ fun DashboardScreen(
                         colorValor = MaterialTheme.colorScheme.primary
                     )
                 }
-                // ── Encabezado historial ──────────────────
                 item {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -93,7 +103,6 @@ fun DashboardScreen(
                         }
                     }
                 }
-                // ── Lista del historial ───────────────────
                 items(historial, key = { it.id }) { lectura ->
                     FilaHistorial(lectura = lectura)
                 }
@@ -102,8 +111,7 @@ fun DashboardScreen(
     }
 }
 
-@Preview(showBackground = true, name = "Dashboard - Light", showSystemUi = true, device = "id:pixel_6")
-@Preview(showBackground = true, name = "Dashboard - Dark", uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
+@Preview(showBackground = true, name = "Dashboard - Light", showSystemUi = true)
 @Composable
 private fun DashboardScreenPreview() {
     SmartHealthMonitorTheme {
