@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import mx.utng.alp.smarthealthmonitor.LoginScreen
 import mx.utng.alp.smarthealthmonitor.ui.screens.DashboardScreen
+import mx.utng.alp.smarthealthmonitor.ui.screens.HistorialScreen
 import mx.utng.alp.smarthealthmonitor.ui.theme.SmartHealthMonitorTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,18 +44,17 @@ fun SmartHealthNavGraph() {
             )
         }
 
-        // ── Historial (Pantallas agregadas de nuevo) ───
+        // ── Historial ──────────────────────────────────
         composable(Screen.Historial.route) {
-            PantallaEnConstruccion(
-                titulo = "Historial completo",
+            HistorialScreen(
                 onBack = { navController.popBackStack() }
             )
         }
 
         // ── Alerta ─────────────────────────────────────
-        composable(Screen.Alerta.route) {
+        composable(Screen.Alerta.route) { // ← CORREGIDO: Ruta de Alerta
             PantallaEnConstruccion(
-                titulo = "Enviar alerta",
+                titulo = "Alertas y Notificaciones",
                 onBack = { navController.popBackStack() }
             )
         }

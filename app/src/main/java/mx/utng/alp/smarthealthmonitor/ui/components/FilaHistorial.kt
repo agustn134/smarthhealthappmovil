@@ -5,37 +5,35 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import mx.utng.alp.smarthealthmonitor.data.models.LecturaFC
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
-fun FilaHistorial(
-    lectura: LecturaFC,
-    modifier: Modifier = Modifier
-) {
+fun FilaHistorial(lectura: LecturaFC) {
+    val formatoHora = SimpleDateFormat("HH:mm", Locale.getDefault())
+    val horaTexto = formatoHora.format(Date(lectura.fecha))
+
+    val esNormal = lectura.bpm in 60..100
+
     Row(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        // Valor FC con color según si es normal o no
         Text(
-            text = "${lectura.valorBpm} bpm",
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Medium,
-            color = if (lectura.esNormal)
-                MaterialTheme.colorScheme.onSurface
-            else
-                MaterialTheme.colorScheme.error
+            text = "${lectura.bpm} bpm",
+            color = if (esNormal) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = lectura.hora,
+            text = horaTexto,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
-    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 }

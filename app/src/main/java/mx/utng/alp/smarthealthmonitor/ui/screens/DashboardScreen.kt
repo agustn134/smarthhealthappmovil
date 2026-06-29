@@ -27,8 +27,13 @@ fun DashboardScreen(
     var pasos by remember { mutableIntStateOf(MockData.pasosActual) }
     val historial = MockData.historialFC
 
+    var mostrarAlerta by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
     SmartHealthMonitorTheme {
         Scaffold(
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             topBar = {
                 TopAppBar(
                     title = {
@@ -57,7 +62,7 @@ fun DashboardScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick       = onAlertClick,
+                    onClick       = { mostrarAlerta = true },
                     containerColor = MaterialTheme.colorScheme.error
                 ) {
                     Icon(
@@ -108,6 +113,22 @@ fun DashboardScreen(
                 }
             }
         }
+    }
+
+    if (mostrarAlerta) {
+        AlertaScreen(
+            fc = fc,
+            onDismiss = { mostrarAlerta = false },
+            onConfirmar = {
+                scope.launch {
+                    mostrarAlerta = false
+                    snackbarHostState.showSnackbar(
+                        message = "Alerta de emergencia enviada",
+                        actionLabel = "OK"
+                    )
+                }
+            }
+        )
     }
 }
 

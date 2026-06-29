@@ -2,22 +2,19 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("kotlin-kapt")
 }
 
 android {
     namespace = "mx.utng.alp.smarthealthmonitor"
-    // Corregido: Usamos la versión estable directa
     compileSdk = 36
 
     defaultConfig {
         applicationId = "mx.utng.alp.smarthealthmonitor"
-        minSdk = 26
+        minSdk = 30
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -33,36 +30,35 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+    useLibrary("wear-sdk")
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
-    val room_version = "2.6.1"
-    implementation(libs.androidx.room.common)
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    "kapt"("androidx.room:room-compiler:$room_version")
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-
-    // Librería clave para que los iconos de Persona, Corazón y Alerta funcionen
-    implementation("androidx.compose.material:material-icons-extended")
-    implementation("androidx.navigation:navigation-compose:2.8.0")
-
-    testImplementation(libs.junit)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.wear.tooling.preview)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.play.services.wearable)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    implementation("androidx.health:health-services-client:1.1.0-alpha03")
+    implementation("com.google.guava:guava:33.0.0-android")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.7.3")
+
 
 }
