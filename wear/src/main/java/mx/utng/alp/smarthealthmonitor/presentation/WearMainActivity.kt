@@ -9,6 +9,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.Composable
+import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import androidx.wear.compose.navigation.SwipeDismissableNavHost
+import androidx.wear.compose.navigation.composable
 import mx.utng.alp.smarthealthmonitor.HealthDataService
 import mx.utng.alp.smarthealthmonitor.presentation.theme.SmartHealthWearTheme
 
@@ -17,8 +21,7 @@ class WearMainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SmartHealthWearTheme {
-                // Por ahora lo dejamos así, en el Ejercicio 02 pondremos el NavGraph
-                WearDashboardScreen()
+                WearAppNavigation()
             }
 
             // Solicitud de permiso para registrar el sensor
@@ -34,6 +37,23 @@ class WearMainActivity : ComponentActivity() {
             LaunchedEffect(Unit) {
                 permissionLauncher.launch(Manifest.permission.BODY_SENSORS)
             }
+        }
+    }
+}
+
+@Composable
+fun WearAppNavigation() {
+    val navController = rememberSwipeDismissableNavController()
+    
+    SwipeDismissableNavHost(navController = navController, startDestination = "dashboard") {
+        composable("dashboard") {
+            WearDashboardScreen(onAlertClick = { navController.navigate("alerta") })
+        }
+        composable("alerta") {
+            WearAlertaScreen(
+                onConfirmar = { /* Aquí iría la lógica de enviar alerta BLE */ },
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }
