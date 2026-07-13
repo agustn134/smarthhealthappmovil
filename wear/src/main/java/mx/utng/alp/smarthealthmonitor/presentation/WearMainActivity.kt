@@ -41,17 +41,31 @@ class WearMainActivity : ComponentActivity() {
     }
 }
 
+object WearScreens {
+    const val DASHBOARD = "wear_dashboard"
+    const val ALERTA    = "wear_alerta"
+    const val HISTORIAL = "wear_historial"
+}
+
 @Composable
 fun WearAppNavigation() {
     val navController = rememberSwipeDismissableNavController()
     
-    SwipeDismissableNavHost(navController = navController, startDestination = "dashboard") {
-        composable("dashboard") {
-            WearDashboardScreen(onAlertClick = { navController.navigate("alerta") })
+    SwipeDismissableNavHost(navController = navController, startDestination = WearScreens.DASHBOARD) {
+        composable(WearScreens.DASHBOARD) {
+            WearDashboardScreen(
+                onAlertClick = { navController.navigate(WearScreens.ALERTA) },
+                onHistorialClick = { navController.navigate(WearScreens.HISTORIAL) }
+            )
         }
-        composable("alerta") {
+        composable(WearScreens.ALERTA) {
             WearAlertaScreen(
                 onConfirmar = { /* Aquí iría la lógica de enviar alerta BLE */ },
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable(WearScreens.HISTORIAL) {
+            WearHistorialScreen(
                 onBack = { navController.popBackStack() }
             )
         }

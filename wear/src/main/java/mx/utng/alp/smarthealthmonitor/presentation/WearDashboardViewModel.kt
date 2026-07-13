@@ -12,4 +12,10 @@ class WearDashboardViewModel : ViewModel() {
     val fc: StateFlow<Int> = SmartHealthRepository.fcFlow
         .map { if (it == 0) 72 else it } // Valor por defecto
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 72)
+
+    val historial: StateFlow<List<mx.utng.alp.smarthealthmonitor.data.models.LecturaFC>> =
+        SmartHealthRepository.obtenerHistorial()
+            .stateIn(viewModelScope,
+                     SharingStarted.WhileSubscribed(5_000),
+                     emptyList())
 }
