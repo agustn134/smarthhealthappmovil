@@ -1,0 +1,59 @@
+package mx.utng.alp.smarthealthmonitor.presentation
+
+import android.Manifest
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.Composable
+import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import androidx.wear.compose.navigation.SwipeDismissableNavHost
+import androidx.wear.compose.navigation.composable
+import mx.utng.alp.smarthealthmonitor.HealthDataService
+import mx.utng.alp.smarthealthmonitor.presentation.theme.SmartHealthWearTheme
+
+class WearMainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            SmartHealthWearTheme {
+                WearAppNavigation()
+            }
+
+            // Solicitud de permiso para registrar el sensor
+            val permissionLauncher = rememberLauncherForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted ->
+                if (isGranted) {
+                    lifecycleScope.launch {
+                        HealthDataService.registrar(this@WearMainActivity)
+                    }
+                }
+            }
+            LaunchedEffect(Unit) {
+                permissionLauncher.launch(Manifest.permission.BODY_SENSORS)
+            }
+        }
+    }
+}
+
+@Composable
+fun WearAppNavigation() {
+    val navController = rememberSwipeDismissableNavController()
+    
+    SwipeDismissableNavHost(navController = navController, startDestination = "dashboard") {
+        composable("dashboard") {
+            WearDashboardScreen(onAlertClick = { navController.navigate("alerta") })
+        }
+        composable("alerta") {
+            WearAlertaScreen(
+                onConfirmar = { /* Aquí iría la lógica de enviar alerta BLE */ },
+                onBack = { navController.popBackStack() }
+            )
+        }
+    }
+}
