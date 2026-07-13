@@ -16,6 +16,7 @@ import mx.utng.alp.smarthealthmonitor.data.models.MockData
 import mx.utng.alp.smarthealthmonitor.ui.components.FilaHistorial
 import mx.utng.alp.smarthealthmonitor.ui.components.TarjetaDato
 import mx.utng.alp.smarthealthmonitor.ui.theme.SmartHealthMonitorTheme
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
