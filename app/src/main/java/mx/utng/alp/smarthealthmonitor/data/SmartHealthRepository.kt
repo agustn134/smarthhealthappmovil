@@ -12,7 +12,7 @@ import mx.utng.alp.smarthealthmonitor.data.models.LecturaFC
 
 object SmartHealthRepository {
     private val _fcFlow = MutableStateFlow(0)
-    val fcFlow: StateFlow<Int> = _fcFlow.asStateFlow()
+    val fcFlow: MutableStateFlow<Int> = _fcFlow
 
     private var dao: LecturaFCDao? = null
 
