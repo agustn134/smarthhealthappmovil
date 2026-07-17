@@ -36,10 +36,10 @@ fun FcCardItem(
                  color = Color.White,
                  fontWeight = FontWeight.Bold)
             Column {
-                Text(lectura.estado,
+                Text(if (lectura.bpm > 90) "Alto" else "Normal",
                      style = MaterialTheme.typography.bodyMedium,
                      color = Color.White.copy(alpha = 0.8f))
-                Text(lectura.hora,
+                Text(java.text.SimpleDateFormat("HH:mm").format(java.util.Date(lectura.fecha)),
                      style = MaterialTheme.typography.bodySmall,
                      color = Color.White.copy(alpha = 0.6f))
             }
