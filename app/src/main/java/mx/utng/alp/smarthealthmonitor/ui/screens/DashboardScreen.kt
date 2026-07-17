@@ -12,6 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.mediarouter.app.MediaRouteButton
+import com.google.android.gms.cast.framework.CastButtonFactory
 import mx.utng.alp.smarthealthmonitor.data.models.MockData
 import mx.utng.alp.smarthealthmonitor.ui.components.FilaHistorial
 import mx.utng.alp.smarthealthmonitor.ui.components.TarjetaDato
@@ -44,6 +47,15 @@ fun DashboardScreen(
                         )
                     },
                     actions = {
+                        // CastButton: AndroidView que envuelve MediaRouteButton
+                        AndroidView(
+                            factory = { context ->
+                                MediaRouteButton(context).apply {
+                                    CastButtonFactory.setUpMediaRouteButton(context, this)
+                                }
+                            },
+                            modifier = Modifier.size(48.dp)
+                        )
                         IconButton(onClick = {
                             fc = (60..130).random()
                             pasos += (10..50).random()
