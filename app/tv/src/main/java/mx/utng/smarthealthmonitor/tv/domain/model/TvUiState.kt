@@ -1,5 +1,5 @@
 package mx.utng.smarthealthmonitor.tv.domain.model
-import mx.utng.alp.smarthealthmonitor.data.models.LecturaFC
+import mx.utng.smarthealthmonitor.tv.domain.model.LecturaFC
  
 data class TvUiState(
     val lecturas    : List<LecturaFC> = emptyList(),

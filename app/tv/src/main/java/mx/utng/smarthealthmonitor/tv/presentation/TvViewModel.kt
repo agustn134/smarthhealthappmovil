@@ -1,7 +1,7 @@
 package mx.utng.smarthealthmonitor.tv.presentation
 import androidx.lifecycle.ViewModel; import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*; import kotlinx.coroutines.launch
-import mx.utng.alp.smarthealthmonitor.data.SmartHealthRepository
+import mx.utng.smarthealthmonitor.tv.domain.repository.SmartHealthRepository
 import mx.utng.smarthealthmonitor.tv.domain.model.TvUiState
  
 class TvViewModel(
@@ -22,7 +22,7 @@ class TvViewModel(
         }
         // Observar FC actual (StateFlow del sensor)
         viewModelScope.launch {
-            repository.fcFlow.collect { bpm ->
+            repository.fcActual.collect { bpm ->
                 _state.update { it.copy(fcActual = bpm) }
             }
         }
