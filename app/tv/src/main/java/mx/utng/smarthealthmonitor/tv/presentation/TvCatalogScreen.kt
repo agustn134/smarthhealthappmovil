@@ -15,7 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
+
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 
@@ -28,7 +28,7 @@ fun TvCatalogScreen(
     Box(Modifier.fillMaxSize().background(Color(0xFF0D1B4A))) {
  
         if (state.isLoading) {
-            CircularProgressIndicator(Modifier.align(Alignment.Center))
+            Text("Cargando...", color = Color.White, modifier = Modifier.align(Alignment.Center))
             return@Box
         }
  
