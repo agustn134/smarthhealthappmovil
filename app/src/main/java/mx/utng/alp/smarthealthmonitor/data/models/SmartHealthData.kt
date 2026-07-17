@@ -4,12 +4,17 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "historial_fc")
+@Entity(tableName = "lecturas_fc")
 data class LecturaFC(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val bpm: Int,
-    val fecha: Long = System.currentTimeMillis()
+    val estado: String = "Normal",
+    val dispositivo: String = "app", // wear | app | tv
+    val hora: String = "00:00:00",
+    val fecha: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "sincronizado")
+    val sincronizado: Boolean = false // false = pendiente de sync
 )
 
 
