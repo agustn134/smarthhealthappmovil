@@ -28,6 +28,10 @@ Aplicación Android de monitoreo de salud personal en tiempo real. Desarrollada 
 ![Historial](screenshots/historial.png)
 ![Alerta](screenshots/alerta.png)
 
+<img width="1007" height="602" alt="{217E2AFE-8CB2-4B5B-9CDC-DE734034CCAC}" src="https://github.com/user-attachments/assets/01b5c78f-8a03-49dd-8f4d-f4965b37f5b0" />
+
+
+
 ## Unidad II — Wear OS
 | Pantalla | Descripción |
 |---|---|
