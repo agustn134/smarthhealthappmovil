@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartHealthMonitor">
         <activity
-            android:name=".MainActivityTv"
+            android:name=".TVActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

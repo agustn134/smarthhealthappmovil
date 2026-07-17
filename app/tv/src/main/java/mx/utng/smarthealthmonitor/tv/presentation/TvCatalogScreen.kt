@@ -20,7 +20,7 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 
 @Composable
-fun TvCatalogScreen(
+fun TvCatalogScreen(onCardClick: (Int) -> Unit = {}, 
     viewModel: TvViewModel = viewModel(factory = TvViewModelFactory(LocalContext.current))
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -41,7 +41,7 @@ fun TvCatalogScreen(
                 RowSection(title = "⚡ Estado Actual — ${state.fcActual} bpm") {
                     LazyRow(horizontalArrangement=Arrangement.spacedBy(16.dp)) {
                         items(state.lecturas.takeLast(3)) { lectura ->
-                            FcCardItem(lectura=lectura, onClick={})
+                            FcCardItem(lectura=lectura, onClick={ onCardClick(lectura.id) })
                         }
                     }
                 }
@@ -52,7 +52,7 @@ fun TvCatalogScreen(
                 RowSection(title = "📋 Historial FC") {
                     LazyRow(horizontalArrangement=Arrangement.spacedBy(16.dp)) {
                         items(state.lecturas) { lectura ->
-                            FcCardItem(lectura=lectura, onClick={})
+                            FcCardItem(lectura=lectura, onClick={ onCardClick(lectura.id) })
                         }
                     }
                 }
