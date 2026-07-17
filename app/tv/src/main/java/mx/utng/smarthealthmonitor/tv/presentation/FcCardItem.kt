@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.*
-import mx.utng.smarthealthmonitor.domain.model.LecturaFC
+import mx.utng.alp.smarthealthmonitor.data.models.LecturaFC
  
 @Composable
 fun FcCardItem(
